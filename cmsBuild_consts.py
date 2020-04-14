@@ -142,10 +142,12 @@ mkdir -p %_srcrpmdir
 
 DEFAULT_PRE_PREAMBLE = """
 if [ X"$(id -u)" = X0 ]; then
+  if [ ! -f /etc/cms-root-install-allowed ]; then
     echo "*** CMS SOFTWARE INSTALLATION ABORTED ***"
     echo "CMS software cannot be installed as the super-user."
     echo "(We recommend reading a unix security guide)."
     exit 1
+  fi
 fi
 """
 
