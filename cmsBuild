@@ -2778,6 +2778,11 @@ def parseOptions():
                                     action="store_true",
                                     help="Do not actually build",
                                     default=False)
+    advancedBuildOptions.add_option("--bootstrapsh",
+                                    dest="bootstrapsh",
+                                    metavar="URL",
+                                    help="full URL of bootstrap.sh script",
+                                    default="")
     advancedBuildOptions.add_option("--server",
                                     dest="server",
                                     metavar="URL",
@@ -3647,7 +3652,7 @@ class PlatformDetectionError(Exception):
 def bootstrap(opts):
     useDev = ""
     if opts.useDev: useDev = "-dev"
-    bootstrapUrl = "%s%s/file/%s/%s/%s" % (opts.server, useDev, opts.repository, opts.architecture, "bootstrap.sh")
+    bootstrapUrl = opts.bootstrapsh if len(opts.bootstrapsh)>0 else "%s%s/file/%s/%s/%s" % (opts.server, useDev, opts.repository, opts.architecture, "bootstrap.sh")
     log("fetching %s" % bootstrapUrl, DEBUG)
     try:
         f = urlopen(bootstrapUrl)
